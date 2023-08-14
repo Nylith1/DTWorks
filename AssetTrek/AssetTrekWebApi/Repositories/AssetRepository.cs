@@ -20,5 +20,13 @@ namespace AssetTrekWebApi.Repositories
         {
             return FakeDatabase.Assets;
         }
+        
+        public void RemoveAsset(string name)
+        {
+            if (FakeDatabase.Assets.ContainsKey(name))
+            {
+                FakeDatabase.Assets.Remove(name);
+            }
+        }
     }
 }

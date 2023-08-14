@@ -27,8 +27,15 @@ namespace AssetTrekWebApi.Controllers
         [Route("get-assets")]
         public List<AssetResponse> Add()
         {
-            var value = repository.GetAssets();
-            return value.Select(x => new AssetResponse() { Name = x.Key, Quantity = x.Value }).ToList();
+            var value = repository.GetAssets().Select(x => new AssetResponse() { Name = x.Key, Quantity = x.Value }).ToList();
+            return value;
+        }
+        
+        [HttpPost]
+        [Route("remove-assets")]
+        public void Remove(RemoveAssetRequest request)
+        {
+            repository.RemoveAsset(request.Name);
         }
     }
 }

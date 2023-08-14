@@ -6,7 +6,7 @@ import GroupList from "./components/GroupList";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-import { Button, ToastContainer } from "react-bootstrap";
+import { Button, ListGroup, ToastContainer } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import Stack from "react-bootstrap/Stack";
 import Toast from "react-bootstrap/Toast";
@@ -16,14 +16,17 @@ function App() {
   const [quantity, setQuantity] = useState("");
   const [inputValue, setInputValue] = useState("");
 
-  // const fetchProgramStatus = () => {
-  //   axios.get("https://localhost:7071/Asset/get-assets").then((response) => {
-  //     setStatusMessage(response.data);
-  //   });
-  // };
+  const [assets, setAssets] = useState([]);
 
-  const addAsset = () => {
-    axios.post("https://localhost:7071/Asset/add", {
+  const fetchAssets = () => {
+    axios.get("https://localhost:7071/Asset/get-assets").then((response) => {
+      setAssets(response.data);
+      console.log(response.data);
+    });
+  };
+
+  const addAsset = async () => {
+    await axios.post("https://localhost:7071/Asset/add", {
       name: name,
       quantity: quantity,
     });
@@ -33,14 +36,17 @@ function App() {
   const [toastMessageHeader, setToastMessageHeader] = useState("");
   const [toastType, setToastType] = useState("");
 
-  const validateEnteredData = () => {
+  const validateEnteredData = async () => {
     if (parseFloat(quantity) <= 0 || isNaN(parseFloat(quantity))) {
-      setToastMessage("Wrong quantity entered. Quantity has to be more than zero.");
+      setToastMessage(
+        "Wrong quantity entered. Quantity has to be more than zero."
+      );
       setToastMessageHeader("Error");
       setToastType("danger");
       setShowToast(true);
     } else {
-      addAsset();
+      await addAsset();
+      fetchAssets();
       setToastMessage("Your information was saved");
       setToastType("success");
       setToastMessageHeader("Saved");
@@ -59,20 +65,26 @@ function App() {
             placeholder="Add your item here..."
           />
           <Form.Control
+            onChange={(e) => setAssetName(e.target.value)}
             className="me-auto"
             placeholder="Add your item here..."
           />
-          <Form.Control
-            className="me-auto"
-            placeholder="Add your item here..."
-          />
-          <Button onClick={validateEnteredData} variant="primary" className="mb-2">
+          <Button
+            onClick={validateEnteredData}
+            variant="primary"
+            className="mb-2"
+          >
             Add asset
-          </Button>{' '}
+          </Button>
         </Stack>
       </div>
+      <GroupList items={assets}></GroupList>
       <ToastContainer position="bottom-end" className="m-2">
-        <Toast bg={toastType} show={showToast} onClose={_ => setShowToast(false)}>
+        <Toast
+          bg={toastType}
+          show={showToast}
+          onClose={(_) => setShowToast(false)}
+        >
           <Toast.Header>
             <img
               src="holder.js/20x20?text=%20"
