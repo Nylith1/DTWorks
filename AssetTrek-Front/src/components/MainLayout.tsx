@@ -11,7 +11,7 @@ function MainLayout({ children }: MainLayoutProps) {
     <>
       <Header></Header>
       <SideBar></SideBar>
-      <div className="p-6 pt-20 sm:ml-64">{children}</div>
+      <div className="p-0 pt-14 sm:ml-64">{children}</div>
     </>
   );
 }
