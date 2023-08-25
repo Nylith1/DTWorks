@@ -32,7 +32,7 @@ namespace AssetTrekWebApi.Controllers
         }
         
         [HttpPost]
-        [Route("remove-assets")]
+        [Route("remove-asset")]
         public void Remove(RemoveAssetRequest request)
         {
             repository.RemoveAsset(request.Name);

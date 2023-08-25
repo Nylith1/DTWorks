@@ -1,5 +1,4 @@
 import { ReactNode } from "react";
-import Header from "./Header";
 import SideBar from "./SideBar";
 
 interface MainLayoutProps {
@@ -9,9 +8,8 @@ interface MainLayoutProps {
 function MainLayout({ children }: MainLayoutProps) {
   return (
     <>
-      <Header></Header>
       <SideBar></SideBar>
-      <div className="p-0 pt-14 sm:ml-64">{children}</div>
+      <div className="p-0 pt-0 sm:ml-64">{children}</div>
     </>
   );
 }

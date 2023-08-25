@@ -1,9 +1,47 @@
+import axios from "axios";
 import MainLayout from "../components/MainLayout";
+import Modal from "../components/Modal";
+import { useEffect, useState } from "react";
 
 function AssetsPage() {
-  // const [name, setAssetName] = useState("");
-  // const [quantity, setQuantity] = useState("");
-  // const [inputValue, setInputValue] = useState("");
+  const [name, setAssetName] = useState("");
+  const [quantity, setQuantity] = useState("");
+  const [assets, setAssets] = useState([{ name: "", quantity: 0 }]);
+
+  const addAsset = async () => {
+    await axios.post("https://localhost:7071/Asset/add", {
+      name: name,
+      quantity: quantity,
+    });
+  };
+
+  useEffect(() => {
+    fetchAssets();
+  });
+
+  const handleDeleteButtonClick = async (name: string) => {
+    console.log(name);
+    await removeAsset(name);
+  };
+
+  const removeAsset = async (name: string) => {
+    await axios.post("https://localhost:7071/Asset/remove-asset", {
+      name: name,
+    });
+    fetchAssets();
+  };
+
+  const handleSubmitButton = async () => {
+    await fetchAssets();
+  };
+
+  const fetchAssets = async () => {
+    await axios
+      .get("https://localhost:7071/Asset/get-assets")
+      .then((response) => {
+        setAssets(response.data);
+      });
+  };
 
   // // const fetchProgramStatus = () => {
   // //   axios.get("https://localhost:7071/Asset/get-assets").then((response) => {
@@ -11,12 +49,16 @@ function AssetsPage() {
   // //   });
   // // };
 
+  // const [asset, setAsset] = useState("", 0);
+
   // const addAsset = () => {
   //   axios.post("https://localhost:7071/Asset/add", {
   //     name: name,
   //     quantity: quantity,
   //   });
+  //   console.log("asd");
   // };
+
   // const [showToast, setShowToast] = useState(true);
   // const [toastMessage, setToastMessage] = useState("");
   // const [toastMessageHeader, setToastMessageHeader] = useState("");
@@ -78,12 +120,12 @@ function AssetsPage() {
 
   return (
     <MainLayout>
-      <>
-        <div className="fixed top-auto z-50 w-full h-16 border-y bg-white border-gray-200 dark:bg-gray-700 dark:border-gray-600">
+      <div>
+        <div className="fixed top-auto z-10 w-full h-16 border-b bg-white border-gray-200 dark:bg-gray-700 dark:border-gray-600">
           <div className="grid h-full max-w-lg grid-cols-4 font-medium">
             <button
               data-modal-target="authentication-modal"
-              data-modal-toggle="authentication-modal"
+              data-modal-show="authentication-modal"
               type="button"
               className="inline-flex flex-col items-center justify-center px-5 border-gray-200 border-r hover:bg-gray-50 dark:hover:bg-gray-800 group dark:border-gray-600"
             >
@@ -96,8 +138,8 @@ function AssetsPage() {
                 className="w-6 h-6"
               >
                 <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                   d="M12 4.5v15m7.5-7.5h-15"
                 />
               </svg>
@@ -108,110 +150,88 @@ function AssetsPage() {
             </button>
           </div>
         </div>
+      </div>
 
-        <div
-          id="authentication-modal"
-          aria-hidden="true"
-          className="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full"
-        >
-          <div className="relative w-full max-w-md max-h-full">
-            <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
-              <button
-                type="button"
-                className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                data-modal-hide="authentication-modal"
-              >
-                <svg
-                  className="w-3 h-3"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 14 14"
-                >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-                  />
-                </svg>
-                <span className="sr-only">Close modal</span>
-              </button>
-              <div className="px-6 py-6 lg:px-8">
-                <h3 className="mb-4 text-xl font-medium text-gray-900 dark:text-white">
-                  Sign in to our platform
-                </h3>
-                <form className="space-y-6" action="#">
-                  <div>
-                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                      Your email
-                    </label>
-                    <input
-                      type="email"
-                      name="email"
-                      id="email"
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                      placeholder="name@company.com"
-                      required
-                    ></input>
-                  </div>
-                  <div>
-                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                      Your password
-                    </label>
-                    <input
-                      type="password"
-                      name="password"
-                      id="password"
-                      placeholder="••••••••"
-                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                      required
-                    ></input>
-                  </div>
-                  <div className="flex justify-between">
-                    <div className="flex items-start">
-                      <div className="flex items-center h-5">
-                        <input
-                          id="remember"
-                          type="checkbox"
-                          value=""
-                          className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-600 dark:border-gray-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
-                          required
-                        ></input>
-                      </div>
-                      <label className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                        Remember me
-                      </label>
-                    </div>
-                    <a
-                      href="#"
-                      className="text-sm text-blue-700 hover:underline dark:text-blue-500"
-                    >
-                      Lost Password?
-                    </a>
-                  </div>
-                  <button
-                    type="submit"
-                    className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                  >
-                    Login to your account
-                  </button>
-                  <div className="text-sm font-medium text-gray-500 dark:text-gray-300">
-                    Not registered?{" "}
-                    <a
-                      href="#"
-                      className="text-blue-700 hover:underline dark:text-blue-500"
-                    >
-                      Create account
-                    </a>
-                  </div>
-                </form>
-              </div>
+      <div className="py-16 relative overflow-x-auto shadow-md sm:rounded-lg">
+        <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+          <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+              <th scope="col" className="px-6 py-3">
+                Quantity
+              </th>
+              <th scope="col" className="px-6 py-3" key={name}>
+                Asset name
+              </th>
+              <th scope="col" className="px-6 py-3 w-10">
+                <span className="sr-only">Delete</span>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {assets.map((assets) => {
+              return (
+                <>
+                  <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                    <td className="px-6 py-4 w-6">{assets.quantity}</td>
+                    <td className="px-6 py-4">{assets.name}</td>
+                    <td className="px-6 py-4">
+                      <button
+                        onClick={() => handleDeleteButtonClick(assets.name)}
+                        type="button"
+                        className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                </>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+
+      <Modal name="Add new asset">
+        <>
+          <form className="space-y-6" action="#" onSubmit={addAsset}>
+            <div>
+              <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                Asset name
+              </label>
+              <input
+                type="text"
+                name="name"
+                id="name"
+                onChange={(event) => setAssetName(event.target.value)}
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                placeholder="s&p 500"
+                required
+              ></input>
             </div>
-          </div>
-        </div>
-      </>
+            <div>
+              <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                Quantity
+              </label>
+              <input
+                type="number"
+                name="quantity"
+                id="quantity"
+                onChange={(e) => setQuantity(e.target.value)}
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                required
+              ></input>
+            </div>
+            <button
+              type="submit"
+              onClick={handleSubmitButton}
+              data-modal-hide="authentication-modal"
+              className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            >
+              Add an asset
+            </button>
+          </form>
+        </>
+      </Modal>
     </MainLayout>
   );
 }
