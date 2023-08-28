@@ -13,6 +13,7 @@ function AssetsPage() {
       name: name,
       quantity: quantity,
     });
+    await fetchAssets();
   };
 
   useEffect(() => {
@@ -31,10 +32,6 @@ function AssetsPage() {
     fetchAssets();
   };
 
-  const handleSubmitButton = async () => {
-    await fetchAssets();
-  };
-
   const fetchAssets = async () => {
     await axios
       .get("https://localhost:7071/Asset/get-assets")
@@ -42,81 +39,6 @@ function AssetsPage() {
         setAssets(response.data);
       });
   };
-
-  // // const fetchProgramStatus = () => {
-  // //   axios.get("https://localhost:7071/Asset/get-assets").then((response) => {
-  // //     setStatusMessage(response.data);
-  // //   });
-  // // };
-
-  // const [asset, setAsset] = useState("", 0);
-
-  // const addAsset = () => {
-  //   axios.post("https://localhost:7071/Asset/add", {
-  //     name: name,
-  //     quantity: quantity,
-  //   });
-  //   console.log("asd");
-  // };
-
-  // const [showToast, setShowToast] = useState(true);
-  // const [toastMessage, setToastMessage] = useState("");
-  // const [toastMessageHeader, setToastMessageHeader] = useState("");
-  // const [toastType, setToastType] = useState("");
-
-  // const validateEnteredData = () => {
-  //   if (parseFloat(quantity) <= 0 || isNaN(parseFloat(quantity))) {
-  //     setToastMessage("Wrong quantity entered. Quantity has to be more than zero.");
-  //     setToastMessageHeader("Error");
-  //     setToastType("danger");
-  //     setShowToast(true);
-  //   } else {
-  //     addAsset();
-  //     setToastMessage("Your information was saved");
-  //     setToastType("success");
-  //     setToastMessageHeader("Saved");
-  //   }
-  // };
-
-  // return (
-  //   <div>
-  //     <div className="position-absolute top-0 start-0 m-2">
-  //       <Stack direction="horizontal" gap={3}>
-  //         <Form.Control
-  //           className="me-auto"
-  //           type="number"
-  //           min="0"
-  //           onChange={(e) => setQuantity(e.target.value)}
-  //           placeholder="Add your item here..."
-  //         />
-  //         <Form.Control
-  //           className="me-auto"
-  //           placeholder="Add your item here..."
-  //         />
-  //         <Form.Control
-  //           className="me-auto"
-  //           placeholder="Add your item here..."
-  //         />
-  //         <Button onClick={validateEnteredData} variant="primary" className="mb-2">
-  //           Add asset
-  //         </Button>{' '}
-  //       </Stack>
-  //     </div>
-  //     <ToastContainer position="bottom-end" className="m-2">
-  //       <Toast bg={toastType} show={showToast} onClose={_ => setShowToast(false)}>
-  //         <Toast.Header>
-  //           <img
-  //             src="holder.js/20x20?text=%20"
-  //             className="rounded me-2"
-  //             alt=""
-  //           />
-  //           <strong className="me-auto">{toastMessageHeader}</strong>
-  //         </Toast.Header>
-  //         <Toast.Body>{toastMessage}</Toast.Body>
-  //       </Toast>
-  //     </ToastContainer>
-  //   </div>
-  // );
 
   return (
     <MainLayout>
@@ -223,7 +145,6 @@ function AssetsPage() {
             </div>
             <button
               type="submit"
-              onClick={handleSubmitButton}
               data-modal-hide="authentication-modal"
               className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             >

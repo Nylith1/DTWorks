@@ -20,6 +20,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IAssetRepository>(_ => new AssetRepository());
+builder.Services.AddScoped<IForCandelaRepository>(_ => new ForCandelaRepository());
 
 var app = builder.Build();
 

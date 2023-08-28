@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import Assets from "./pages/Assets";
 import DashboardPage from "./pages/DashboardPage";
+import ForCandelaPage from "./pages/ForCandelaPage";
 
 export const router = createBrowserRouter([
   {
@@ -12,6 +13,10 @@ export const router = createBrowserRouter([
       {
         path: "/assets",
         element: <Assets />,
+      },
+      {
+        path: "/forcandela",
+        element: <ForCandelaPage />,
       },
     ],
   },

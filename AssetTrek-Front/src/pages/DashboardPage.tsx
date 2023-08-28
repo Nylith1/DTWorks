@@ -3,7 +3,7 @@ import MainLayout from "../components/MainLayout";
 function DashboardPage() {
   return (
     <MainLayout>
-      <div className="fixed top-auto z-50 w-full h-16 border-y bg-white border-gray-200 dark:bg-gray-700 dark:border-gray-600">
+      <div className="fixed top-auto z-5 w-full h-16 border-y bg-white border-gray-200 dark:bg-gray-700 dark:border-gray-600">
         <div className="grid h-full max-w-lg grid-cols-4 font-medium">
           <button
             type="button"
