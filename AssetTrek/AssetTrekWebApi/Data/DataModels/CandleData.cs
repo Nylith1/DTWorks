@@ -1,7 +1,10 @@
-﻿namespace AssetTrekWebApi.Responses.ForCandelaResponse
+﻿using MongoDB.Bson.Serialization.Attributes;
+
+namespace AssetTrekWebApi.Data.DataModels
 {
-    public class GetCandlesResponse
+    public class CandleData
     {
+        [BsonId]
         public Guid Id { get; set; }
         public string Name { get; set; }
         public decimal Price { get; set; }

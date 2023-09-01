@@ -1,3 +1,4 @@
+using AssetTrekWebApi.DataAccess;
 using AssetTrekWebApi.Repositories;
 using System.Numerics;
 
@@ -19,8 +20,9 @@ builder.Services.AddCors(options =>
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddScoped<IAssetRepository>(_ => new AssetRepository());
-builder.Services.AddScoped<IForCandelaRepository>(_ => new ForCandelaRepository());
+builder.Services.AddScoped<IDTWorksDb>(_ => new DTWorksDb("DBWorks"));
+builder.Services.AddScoped<IAssetRepository, AssetRepository>();
+builder.Services.AddScoped<IForCandelaRepository, ForCandelaRepository>();
 
 var app = builder.Build();
 

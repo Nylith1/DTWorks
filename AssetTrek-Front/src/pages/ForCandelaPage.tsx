@@ -2,25 +2,20 @@ import { useEffect, useState } from "react";
 import MainLayout from "../components/MainLayout";
 import axios from "axios";
 import CandleEditModal from "../modals/CandleEditModal";
+import PageCard from "../components/PageCard";
 
 function ForCandelaPage() {
-  const [candles, setCandles] = useState([{ name: "", price: 0, image: "" }]);
+  const [candles, setCandles] = useState([
+    { id: "", name: "", price: 0, image: "" },
+  ]);
   const [shouldFetch, setShouldFetch] = useState(true);
 
   useEffect(() => {
     if (shouldFetch) {
       fetchCandles();
+      console.log("fetching...");
     }
   }, [shouldFetch]);
-
-  function base64ToUint8Array(base64: string) {
-    var binaryString = atob(base64);
-    var bytes = new Uint8Array(binaryString.length);
-    for (var i = 0; i < binaryString.length; i++) {
-      bytes[i] = binaryString.charCodeAt(i);
-    }
-    return bytes;
-  }
 
   const fetchCandles = async () => {
     await axios
@@ -30,16 +25,6 @@ function ForCandelaPage() {
       })
       .finally(() => setShouldFetch(false));
   };
-
-  function toDataUrl(img: Uint8Array) {
-    const image = btoa(
-      new Uint8Array(img).reduce((data, byte) => {
-        return data + String.fromCharCode(byte);
-      }, "")
-    );
-
-    return `data:image/jpg;base64,${image}`;
-  }
 
   return (
     <MainLayout>
@@ -78,27 +63,10 @@ function ForCandelaPage() {
       <div className="py-20 px-4 grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 grid-cols- gap-4">
         {candles.map((candle) => {
           return (
-            <>
-              <div className="w-full max-w-xl bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex flex-col">
-                <div className="px-4 pt-4">
-                  <h5 className="text-xl text-center font-semibold tracking-tight text-gray-900 dark:text-white">
-                    {candle.name}
-                  </h5>
-                </div>
-                <div className="flex-grow">
-                  <img
-                    className="p-4 h-auto rounded-t-lg"
-                    src={toDataUrl(base64ToUint8Array(candle.image))}
-                    alt="product image"
-                  />
-                </div>
-                <div className="flex justify-center">
-                  <span className="py-4 marg text-3xl font-bold text-gray-900 dark:text-white">
-                    {candle.price}€
-                  </span>
-                </div>
-              </div>
-            </>
+            <PageCard
+              shouldFetch={() => setShouldFetch(true)}
+              candle={candle}
+            ></PageCard>
           );
         })}
       </div>

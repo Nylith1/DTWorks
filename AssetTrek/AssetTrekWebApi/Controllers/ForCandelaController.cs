@@ -2,7 +2,6 @@
 using AssetTrekWebApi.Requests.ForCandela;
 using AssetTrekWebApi.Responses.ForCandelaResponse;
 using Microsoft.AspNetCore.Mvc;
-using System.Reflection.Metadata;
 
 namespace AssetTrekWebApi.Controllers
 {
@@ -28,9 +27,15 @@ namespace AssetTrekWebApi.Controllers
         [Route("get-candles")]
         public List<GetCandlesResponse> GetCandles()
         {
-            var candles = repository.GetCandles().Select(x => new GetCandlesResponse() { Image = x.Value.image, Price = x.Value.price, Name = x.Key }).ToList();
-
+            var candles = repository.GetCandles().Select(x => new GetCandlesResponse() {Id = x.Id, Image = x.Image, Price = x.Price, Name = x.Name }).ToList();
             return candles;
+        }
+
+        [HttpDelete]
+        [Route("remove-candle/{id}")]
+        public void GetCandles(Guid id)
+        {
+            repository.RemoveCandles(id);
         }
     }
 }
