@@ -1,11 +1,10 @@
-﻿using AssetTrekWebApi.Data.DataModels;
+﻿using AssetTrekWebApi.DataAccess.DataModels;
 
-namespace AssetTrekWebApi.Repositories
+namespace AssetTrekWebApi.Repositories;
+
+public interface IForCandelaRepository
 {
-    public interface IForCandelaRepository
-    {
-        void AddCandle(string name, decimal price, byte[] image);
-        List<CandleData> GetCandles();
-        void RemoveCandles(Guid id);
-    }
+    void AddCandle(string name, decimal price, byte[] image);
+    List<CandleData> GetCandles();
+    void RemoveCandles(Guid id);
 }

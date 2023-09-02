@@ -1,8 +1,7 @@
-﻿namespace AssetTrekWebApi.Requests
+﻿namespace AssetTrekWebApi.Requests;
+
+public class AddAssetRequest
 {
-    public class AddAssetRequest
-    {
-        public string Name { get; set; }
-        public decimal Quantity { get; set; }
-    }
+    public string Name { get; set; }
+    public decimal Quantity { get; set; }
 }

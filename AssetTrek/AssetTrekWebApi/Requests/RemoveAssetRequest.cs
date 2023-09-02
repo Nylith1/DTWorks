@@ -1,7 +1,6 @@
-﻿namespace AssetTrekWebApi.Requests
+﻿namespace AssetTrekWebApi.Requests;
+
+public class RemoveAssetRequest
 {
-    public class RemoveAssetRequest
-    {
-        public string Name { get; set; }
-    }
+    public string Name { get; set; }
 }

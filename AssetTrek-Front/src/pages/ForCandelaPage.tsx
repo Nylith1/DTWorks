@@ -12,8 +12,8 @@ function ForCandelaPage() {
 
   useEffect(() => {
     if (shouldFetch) {
-      fetchCandles();
       console.log("fetching...");
+      fetchCandles();
     }
   }, [shouldFetch]);
 

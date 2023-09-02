@@ -1,6 +1,6 @@
 using AssetTrekWebApi.DataAccess;
 using AssetTrekWebApi.Repositories;
-using System.Numerics;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,12 +21,13 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IDTWorksDb>(_ => new DTWorksDb("DBWorks"));
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+
 builder.Services.AddScoped<IAssetRepository, AssetRepository>();
 builder.Services.AddScoped<IForCandelaRepository, ForCandelaRepository>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

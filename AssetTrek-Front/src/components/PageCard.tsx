@@ -26,12 +26,6 @@ function PageCard({ shouldFetch, candle }: CandleCardProps) {
     shouldFetch();
   };
 
-  const handleEditButtonClick = async (id: string) => {
-    console.log(id);
-    shouldFetch();
-    //notimplemented
-  };
-
   function toDataUrl(img: Uint8Array) {
     const image = btoa(
       new Uint8Array(img).reduce((data, byte) => {
@@ -48,19 +42,9 @@ function PageCard({ shouldFetch, candle }: CandleCardProps) {
         <div className="flex justify-end">
           <DropdownButton>
             <li>
-              <div>
-                <a
-                  onClick={() => handleEditButtonClick(candle.id)}
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                >
-                  Edit
-                </a>
-              </div>
-            </li>
-            <li>
               <a
                 onClick={() => handleDeleteButtonClick(candle.id)}
-                className="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                className=" cursor-pointer block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
               >
                 Remove
               </a>

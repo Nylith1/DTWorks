@@ -1,5 +1,5 @@
-﻿using AssetTrekWebApi.Data.DataModels;
-using AssetTrekWebApi.DataAccess;
+﻿using AssetTrekWebApi.DataAccess;
+using AssetTrekWebApi.DataAccess.DataModels;
 
 namespace AssetTrekWebApi.Repositories;
 
@@ -12,37 +12,18 @@ public class ForCandelaRepository : IForCandelaRepository
         this.db = db;
     }
 
-
     public void AddCandle(string name, decimal price, byte[] image)
     {
-        var data = new CandleData()
-        {
-            Name = name,
-            Price = price,
-            Image = image
-        };
-
-
-        if (FakeDatabase.Candles.ContainsKey(name))
-        {
-            return;
-        }
-        else
-        {
-            db.InsertRecords<CandleData>("Candles", data);
-
-            FakeDatabase.Candles.Add(name, (price, image));
-        }
+        db.InsertRecords(TableNames.Candles, new CandleData() { Name = name, Price = price, Image = image });
     }
 
     public List<CandleData> GetCandles()
     {
-        var data = db.GetRecords<CandleData>("Candles");
-        return data;
+        return db.GetRecords<CandleData>(TableNames.Candles);
     }
 
     public void RemoveCandles(Guid id)
     {
-        db.RemoveRecords<CandleData>("Candles", id);
+        db.RemoveRecords<CandleData>(TableNames.Candles, id);
     }
 }

@@ -1,41 +1,38 @@
-﻿using AssetTrekWebApi.Repositories;
-using AssetTrekWebApi.Requests.ForCandela;
-using AssetTrekWebApi.Responses.ForCandelaResponse;
+﻿using AssetTrekWebApi.Handlers.ForCandela;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AssetTrekWebApi.Controllers
+namespace AssetTrekWebApi.Controllers;
+
+[ApiController]
+[Route("[controller]")]
+public class ForCandelaController : ControllerBase
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class ForCandelaController : ControllerBase
+    private readonly IMediator mediator;
+
+    public ForCandelaController(IMediator mediator)
     {
-        private readonly IForCandelaRepository repository;
+        this.mediator = mediator;
+    }
 
-        public ForCandelaController(IForCandelaRepository repository)
-        {
-            this.repository = repository;
-        }
+    [HttpPost]
+    [Route("add-candle")]
+    public async Task Add(AddCandleRequest request)
+    {
+        await mediator.Send(request);
+    }
 
-        [HttpPost]
-        [Route("add-candle")]
-        public void Add(AddCandleRequest request)
-        {
-            repository.AddCandle(request.Name, request.Price, request.Image);
-        }
+    [HttpGet]
+    [Route("get-candles")]
+    public async Task<List<GetCandlesResponse>> GetCandles()
+    {
+        return await mediator.Send(new GetCandlesRequest());
+    }
 
-        [HttpGet]
-        [Route("get-candles")]
-        public List<GetCandlesResponse> GetCandles()
-        {
-            var candles = repository.GetCandles().Select(x => new GetCandlesResponse() {Id = x.Id, Image = x.Image, Price = x.Price, Name = x.Name }).ToList();
-            return candles;
-        }
-
-        [HttpDelete]
-        [Route("remove-candle/{id}")]
-        public void GetCandles(Guid id)
-        {
-            repository.RemoveCandles(id);
-        }
+    [HttpDelete]
+    [Route("remove-candle/{id}")]
+    public async Task GetCandle(Guid id)
+    {
+        await mediator.Send(new RemoveCandleRequest() { Id = id });
     }
 }

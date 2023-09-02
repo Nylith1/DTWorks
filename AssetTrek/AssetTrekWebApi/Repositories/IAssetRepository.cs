@@ -1,9 +1,8 @@
-﻿namespace AssetTrekWebApi.Repositories
+﻿namespace AssetTrekWebApi.Repositories;
+
+public interface IAssetRepository
 {
-    public interface IAssetRepository
-    {
-        void AddAsset(string name, decimal value);
-        Dictionary<string, decimal> GetAssets();
-        void RemoveAsset(string name);
-    }
+    void AddAsset(string name, decimal value);
+    Dictionary<string, decimal> GetAssets();
+    void RemoveAsset(string name);
 }
