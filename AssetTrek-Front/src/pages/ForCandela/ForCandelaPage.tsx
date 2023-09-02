@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import MainLayout from "../components/MainLayout";
+import MainLayout from "../../components/MainLayout";
 import axios from "axios";
-import CandleEditModal from "../modals/CandleEditModal";
-import PageCard from "../components/PageCard";
+import CandleEditModal from "../../modals/CandleEditModal";
+import PageCard from "./CandleCard";
 
 function ForCandelaPage() {
   const [candles, setCandles] = useState([

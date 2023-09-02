@@ -1,5 +1,6 @@
 import axios from "axios";
-import DropdownButton from "./DropdownButton";
+import DropdownButton from "../../components/DropdownButton";
+import { ImageFileService } from "../../services/ImageFileService";
 
 interface CandleCardProps {
   shouldFetch: () => void;
@@ -12,29 +13,10 @@ interface CandleCardProps {
 }
 
 function PageCard({ shouldFetch, candle }: CandleCardProps) {
-  function base64ToUint8Array(base64: string) {
-    var binaryString = atob(base64);
-    var bytes = new Uint8Array(binaryString.length);
-    for (var i = 0; i < binaryString.length; i++) {
-      bytes[i] = binaryString.charCodeAt(i);
-    }
-    return bytes;
-  }
-
   const handleDeleteButtonClick = async (id: string) => {
     await axios.delete(`https://localhost:7071/ForCandela/remove-candle/${id}`);
     shouldFetch();
   };
-
-  function toDataUrl(img: Uint8Array) {
-    const image = btoa(
-      new Uint8Array(img).reduce((data, byte) => {
-        return data + String.fromCharCode(byte);
-      }, "")
-    );
-
-    return `data:image/jpg;base64,${image}`;
-  }
 
   return (
     <>
@@ -59,7 +41,9 @@ function PageCard({ shouldFetch, candle }: CandleCardProps) {
         <div className="flex-grow">
           <img
             className="p-4 h-auto rounded-t-lg"
-            src={toDataUrl(base64ToUint8Array(candle.image))}
+            src={ImageFileService.ToDataUrl(
+              ImageFileService.Base64ToUint8Array(candle.image)
+            )}
             alt="product image"
           />
         </div>

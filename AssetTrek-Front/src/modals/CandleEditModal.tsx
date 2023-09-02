@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Modal from "../components/Modal";
 import axios from "axios";
+import { ImageFileService } from "../services/ImageFileService";
 
 interface CandleEditModalProps {
   onClose: () => void;
@@ -39,38 +40,19 @@ function CandleEditModal({ onClose }: CandleEditModalProps) {
 
   useEffect(() => {
     {
-      setModalImageToDisplay(byteArray);
+      setImageToDisplay(ImageFileService.ToDataUrl(byteArray));
     }
     [imageFilePath];
   });
-
-  function convertUint8ArrayToBase64(byteArray: Uint8Array) {
-    return btoa(
-      new Uint8Array(byteArray).reduce(
-        (data, byte) => data + String.fromCharCode(byte),
-        ""
-      )
-    );
-  }
 
   const addCandle = async () => {
     await axios.post("https://localhost:7071/ForCandela/add-candle", {
       name: name,
       price: price,
-      image: convertUint8ArrayToBase64(byteArray),
+      image: ImageFileService.ConvertUint8ArrayToBase64(byteArray),
     });
     onClose();
   };
-
-  function setModalImageToDisplay(img: Uint8Array) {
-    const image = btoa(
-      new Uint8Array(img).reduce((data, byte) => {
-        return data + String.fromCharCode(byte);
-      }, "")
-    );
-
-    setImageToDisplay(`data:image/jpg;base64,${image}`);
-  }
 
   return (
     <Modal name="Add new candle">

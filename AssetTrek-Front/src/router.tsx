@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import Assets from "./pages/Assets";
 import DashboardPage from "./pages/DashboardPage";
-import ForCandelaPage from "./pages/ForCandelaPage";
+import ForCandelaPage from "./pages/ForCandela/ForCandelaPage";
 
 export const router = createBrowserRouter([
   {
