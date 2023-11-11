@@ -17,10 +17,10 @@ public class AlphaVantageController : ControllerBase
 
     [HttpGet]
     [Route(nameof(GetAlphaVantageTickersByTickerPart) + "/{tickerPart}")]
-    public async Task<ActionResult<IEnumerable<GetAlphaVantageTickersByTickerPartResponse>>> GetAlphaVantageTickersByTickerPart(string tickerPart)
+    public async Task<IEnumerable<GetAlphaVantageTickersByTickerPartResponse>> GetAlphaVantageTickersByTickerPart(string tickerPart)
     {
         var result = await mediator.Send(new GetAlphaVantageTickersByTickerPartRequest() { TickerPart = tickerPart });
-        return result.ToActionResult();
+        return result;
     }
 }
 
