@@ -25,6 +25,7 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.Get
 
 builder.Services.AddScoped<IAssetRepository, AssetRepository>();
 builder.Services.AddScoped<IForCandelaRepository, ForCandelaRepository>();
+builder.Services.AddScoped<IAlphaVantageRepository, AlphaVantageRepository>();
 
 var app = builder.Build();
 

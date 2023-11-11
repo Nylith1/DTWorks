@@ -70,7 +70,6 @@ function ForCandelaPage() {
           );
         })}
       </div>
-
       <CandleEditModal onClose={() => setShouldFetch(true)} />
     </MainLayout>
   );

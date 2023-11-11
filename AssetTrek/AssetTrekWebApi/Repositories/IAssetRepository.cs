@@ -1,8 +1,9 @@
-﻿namespace AssetTrekWebApi.Repositories;
+﻿using AssetTrekWebApi.Handlers.AssetTrek;
+using DTWorks.Domain.AssetTrek;
+
+namespace AssetTrekWebApi.Repositories;
 
 public interface IAssetRepository
 {
-    void AddAsset(string name, decimal value);
-    Dictionary<string, decimal> GetAssets();
-    void RemoveAsset(string name);
+    void AddAsset(AssetTransaction domain);
 }

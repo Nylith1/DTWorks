@@ -1,31 +1,20 @@
 ﻿using AssetTrekWebApi.DataAccess;
+using AssetTrekWebApi.DataAccess.DataModels;
+using DTWorks.Domain.AssetTrek;
 
 namespace AssetTrekWebApi.Repositories;
 
 public class AssetRepository : IAssetRepository
 {
-    public void AddAsset(string name, decimal value)
+    private readonly IDTWorksDb db;
+
+    public AssetRepository(IDTWorksDb db)
     {
-        if (FakeDatabase.Assets.ContainsKey(name))
-        {
-            FakeDatabase.Assets[name] = FakeDatabase.Assets[name] + value;
-        }
-        else
-        {
-            FakeDatabase.Assets.Add(name, value);
-        }
+        this.db = db;
     }
 
-    public Dictionary<string, decimal> GetAssets()
+    public void AddAsset(AssetTransaction domain)
     {
-        return FakeDatabase.Assets;
-    }
-
-    public void RemoveAsset(string name)
-    {
-        if (FakeDatabase.Assets.ContainsKey(name))
-        {
-            FakeDatabase.Assets.Remove(name);
-        }
+        db.InsertRecords(TableNames.AssetTransactions, new AssetTransactionData() { Name = domain.Name, Quantity = domain.Quantity, Date = domain.Date, Ticker = domain.Ticker, BuyPrice = domain.BuyPrice });
     }
 }

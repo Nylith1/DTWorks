@@ -1,6 +1,5 @@
-using AssetTrekWebApi.Repositories;
-using AssetTrekWebApi.Requests;
-using AssetTrekWebApi.Responses;
+using AssetTrekWebApi.Handlers.AssetTrek;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AssetTrekWebApi.Controllers;
@@ -9,32 +8,17 @@ namespace AssetTrekWebApi.Controllers;
 [Route("[controller]")]
 public class AssetController : ControllerBase
 {
-    private readonly IAssetRepository repository;
+    private readonly IMediator mediator;
 
-    public AssetController(IAssetRepository repository)
+    public AssetController(IMediator mediator)
     {
-        this.repository = repository;
+        this.mediator = mediator;
     }
 
     [HttpPost]
-    [Route("add")]
-    public void Add(AddAssetRequest request)
+    [Route(nameof(AddAsset))]
+    public async Task AddAsset(AddAssetRequest request)
     {
-        repository.AddAsset(request.Name, request.Quantity);
-    }
-
-    [HttpGet]
-    [Route("get-assets")]
-    public List<AssetResponse> Add()
-    {
-        var value = repository.GetAssets().Select(x => new AssetResponse() { Name = x.Key, Quantity = x.Value }).ToList();
-        return value;
-    }
-
-    [HttpPost]
-    [Route("remove-asset")]
-    public void Remove(RemoveAssetRequest request)
-    {
-        repository.RemoveAsset(request.Name);
+        await mediator.Send(request);
     }
 }
